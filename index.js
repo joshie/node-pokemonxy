@@ -86,6 +86,6 @@ pokemon.PKX = {
     return this.pkxEncrypted.copy(buff);
   },
   copyUnencrypted: function (buff) {
-    return this.pkxEncrypted.copy(buff);
+    return this.pkxUnencrypted.copy(buff);
   },
 }
