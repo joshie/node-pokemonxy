@@ -1,6 +1,6 @@
 {
   "name" : "pokemonxy",
-  "version" : "0.0.2",
+  "version" : "0.0.3",
   "description" : "Library with various useful pokemonxy functions",
   "main" : "./index.js",
   "repository" : {
@@ -16,7 +16,7 @@
     "email" : "joshlohrman@gmail.com",
     "url" : "https://github.com/joshie/node-pokemonxy"
   },
-  "devDependencies" : {
+  "dependencies" : {
     "bignum" : "~0.6.2"
   },
   "license" : "MIT",
