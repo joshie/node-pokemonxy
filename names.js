@@ -2,8 +2,8 @@ var names = new Object;
 module.exports = names;
 
 names.flag = [
-  'yes',
-  'no'
+  'no',
+  'yes'
 ];
 
 names.natures = [
@@ -2111,8 +2111,8 @@ names.languages = [
 ];
 
 names.gender = [
-  'Female',
-  'Male'
+  'Male',
+  'Female'
 ];
 
 names.versions = [
