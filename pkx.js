@@ -96,10 +96,10 @@ pkx.spawn = {
   readAbilityNumber:         function() { return this.pkxUnencrypted.readUInt8(0x15) },
   readPersonalityValue:      function() { return this.pkxUnencrypted.readUInt32LE(0x18) },
   readNature:                function() { return this.pkxUnencrypted.readUInt8(0x1C) },
-  readFatefulEncounter:      function() { return this.pkxUnencrypted.readUInt8(0x1D) & 0x80 >>> 7 },
-  readGender:                function() { return this.pkxUnencrypted.readUInt8(0x1D) & 0x40 >>> 6 },
-  readGenderless:            function() { return this.pkxUnencrypted.readUInt8(0x1D) & 0x20 >>> 5 },
-  readForm:                  function() { return this.pkxUnencrypted.readUInt8(0x1D) & 0x1F},
+  readFatefulEncounter:      function() { return this.pkxUnencrypted.readUInt8(0x1D) & 1 !== 0},
+  readGender:                function() { return this.pkxUnencrypted.readUInt8(0x1D) & 2 !== 0},
+  readGenderless:            function() { return this.pkxUnencrypted.readUInt8(0x1D) & 4 !== 0},
+  readForm:                  function() { return this.pkxUnencrypted.readUInt8(0x1D) >>> 3},
   readHPEffortValue:         function() { return this.pkxUnencrypted.readUInt8(0x1E) },
   readAttackEffortValue:     function() { return this.pkxUnencrypted.readUInt8(0x1F) },
   readDefenseEffortValue:    function() { return this.pkxUnencrypted.readUInt8(0x20) },
@@ -123,14 +123,14 @@ pkx.spawn = {
   readMove3IDAtHatching:     function() { return this.pkxUnencrypted.readUInt16LE(0x6E) },
   readMove4IDAtHatching:     function() { return this.pkxUnencrypted.readUInt16LE(0x70) },
   readMove4IDAtHatching:     function() { return this.pkxUnencrypted.readUInt16LE(0x72) },
-  readIVHP:                  function() { return this.pkxUnencrypted.readUInt8(0x74) >>> 3 },
-  readIVAttack:              function() { return this.pkxUnencrypted.readUInt16LE(0x74) & 0x07C0 >>> 6 },
-  readIVDefense:             function() { return this.pkxUnencrypted.readUInt8(0x75) & 0x3E >>> 1 },
-  readIVSpeed:               function() { return this.pkxUnencrypted.readUInt16LE(0x75) & 0x01F0 >>> 4 },
-  readIVSPAttack:            function() { return this.pkxUnencrypted.readUInt16LE(0x76) & 0x0F80 >>> 7 },
-  readIVSPDefense:           function() { return this.pkxUnencrypted.readUInt8(0x77) & 0x7C >>> 2 },
-  readIsEgg:                 function() { return this.pkxUnencrypted.readUInt8(0x77) & 0x02 >>> 1 },
-  readIsNicknamed:           function() { return this.pkxUnencrypted.readUInt8(0x77) & 0x01},
+  readIVHP:                  function() { return this.pkxUnencrypted.readUInt32LE(0x74) & 0x0000001F        },
+  readIVAttack:              function() { return this.pkxUnencrypted.readUInt32LE(0x74) & 0x000003E0 >>> 5  },
+  readIVDefense:             function() { return this.pkxUnencrypted.readUInt32LE(0x74) & 0x00007C00 >>> 10 },
+  readIVSpeed:               function() { return this.pkxUnencrypted.readUInt32LE(0x74) & 0x000F8000 >>> 15 },
+  readIVSPAttack:            function() { return this.pkxUnencrypted.readUInt32LE(0x74) & 0x01F00000 >>> 20 },
+  readIVSPDefense:           function() { return this.pkxUnencrypted.readUInt32LE(0x74) & 0x3E000000 >>> 25 },
+  readIsEgg:                 function() { return this.pkxUnencrypted.readUInt32LE(0x74) & 0x40000000 >>> 30 },
+  readIsNicknamed:           function() { return this.pkxUnencrypted.readUInt32LE(0x74)              >>> 31 },
   readOTNameTradedTo:        function() { return this.pkxUnencrypted.toString('utf8',0x78,0x8F) },
   readOTName:                function() { return this.pkxUnencrypted.toString('utf8',0xB0,0xC7) },
   readYearEggReceived:       function() { return this.pkxUnencrypted.readUInt8(0xD3) },
@@ -142,8 +142,8 @@ pkx.spawn = {
   readEggLocation:           function() { return this.pkxUnencrypted.readUInt16LE(0xD8) },
   readMetAtLocation:         function() { return this.pkxUnencrypted.readUInt16LE(0xDA) },
   readPokeball:              function() { return this.pkxUnencrypted.readUInt8(0xDC) },
-  readEncounterLevel:        function() { return this.pkxUnencrypted.readUInt8(0xDD) >>> 1 }, 
-  readOTGender:              function() { return this.pkxUnencrypted.readUInt8(0xDD) & 0x01 },
+  readEncounterLevel:        function() { return this.pkxUnencrypted.readUInt8(0xDD) & 128 }, 
+  readOTGender:              function() { return this.pkxUnencrypted.readUInt8(0xDD) & >>> 7 },
   readOTGameVersion:         function() { return this.pkxUnencrypted.readUInt8(0xDF) },
   readCountryID:             function() { return this.pkxUnencrypted.readUInt8(0xE0) },
   readRegionID:              function() { return this.pkxUnencrypted.readUInt8(0xE1) },
@@ -171,22 +171,22 @@ pkx.spawn = {
   writeNature:               function(i) { return this.pkxUnencrypted.writeUInt8(i,0x1C) },
   writeFatefulEncounter:     function(i) { 
                                return this.pkxUnencrypted.writeUInt8(
-                                 i << 7 | (this.pkxUnencrypted.readUInt8(0x1D) & 0x7F), 0x1D
+                                 i | (this.pkxUnencrypted.readUInt8(0x1D) & 0xFE), 0x1D
                                )
                              },
   writeGender:               function(i) {
                                return this.pkxUnencrypted.writeUInt8(
-                                 i << 6 | (this.pkxUnencrypted.readUInt8(0x1D) & 0xBF), 0x1D
+                                 i << 1 | (this.pkxUnencrypted.readUInt8(0x1D) & 0xFD), 0x1D
                                ) 
                              },
   writeGenderless:           function(i) {
                                return this.pkxUnencrypted.writeUInt8(
-                                 i << 5 | (this.pkxUnencrypted.readUInt8(0x1D) & 0xDF), 0x1D
+                                 i << 2 | (this.pkxUnencrypted.readUInt8(0x1D) & 0xFB), 0x1D
                                )
                              },
   writeForm:                 function(i) {
                                return this.pkxUnencrypted.writeUInt8(
-                                 i | (this.pkxUnencrypted.readUInt8(0x1D) & 0xE0), 0x1D
+                                 i << 3 | (this.pkxUnencrypted.readUInt8(0x1D) & 0x07), 0x1D
                                )
                              },
   writeHPEffortValue:        function(i) { return this.pkxUnencrypted.writeUInt8(i,0x1E) },
@@ -216,43 +216,43 @@ pkx.spawn = {
   writeMove4IDAtHatching:    function(i) { return this.pkxUnencrypted.writeUInt16LE(i,0x70) },
   writeMove4IDAtHatching:    function(i) { return this.pkxUnencrypted.writeUInt16LE(i,0x72) },
   writeIVHP:                 function(i) {
-                               return this.pkxUnencrypted.writeUInt8(
-                                 i << 3 | (this.pkxUnencrypted.readUInt8(0x74) & 0x07), 0x74 
+                               return this.pkxUnencrypted.writeUInt32LE(
+                                 i       | (this.pkxUnencrypted.readUInt32LE(0x74) & 0xFFFFFFE0), 0x74 
                                )
                              },
   writeIVAttack:             function(i) { 
-                               return this.pkxUnencrypted.writeUInt16LE(
-  														   i << 6 | (this.pkxUnencrypred.readUint16LE(0x74) & 0xF83F), 0x74
+                               return this.pkxUnencrypted.writeUInt32LE(
+  														   i << 5  | (this.pkxUnencrypred.readUint32LE(0x74) & 0xFFFFFC1F), 0x74
                                )
                              },
   writeIVDefense:            function(i) { 
-                               return this.pkxUnencrypted.writeUInt8(
-                                 i << 1 | (this.pkxUnencrypted.readUInt8(0x75) & 0xC1), 0x75
+                               return this.pkxUnencrypted.writeUInt32LE(
+                                 i << 10 | (this.pkxUnencrypted.readUInt32LE(0x74) & 0xFFFF83FF), 0x74
                                )
                              },
   writeIVSpeed:              function(i) { 
-                               return this.pkxUnencrypted.writeUInt16LE(
-                                 i << 4 | (this.pkxUnencrypred.readUint16LE(0x75) & 0xFE0F), 0x75
+                               return this.pkxUnencrypted.writeUInt32LE(
+                                 i << 15 | (this.pkxUnencrypred.readUint32LE(0x74) & 0xFFF07FFF), 0x74
                                )
                              },
   writeIVSPAttack:           function(i) {
-                               return this.pkxUnencrypted.writeUInt16LE(
-                                 i << 7 | (this.pkxUnencrypred.readUint16LE(0x76) & 0xF07F), 0x76
+                               return this.pkxUnencrypted.writeUInt32LE(
+                                 i << 20 | (this.pkxUnencrypred.readUint32LE(0x74) & 0xFE0FFFFF, 0x74
                                )
                              },
   writeIVSPDefense:          function(i) {
-                               return this.pkxUnencrypted.writeUInt8(
-                                 i << 2 | (this.pkxUnencrypted.readUInt8(0x77) & 0x83), 0x77
+                               return this.pkxUnencrypted.writeUInt32LE(
+                                 i << 25 | (this.pkxUnencrypted.readUInt32LE(0x74) & 0xC1FFFFFF), 0x74
                                )
                              },
   writeIsEgg:                function(i) {
-                               return this.pkxUnencrypted.writeUInt8(
-                                 i << 1 | (this.pkxUnencrypted.readUInt8(0x77) & 0xFD), 0x77
+                               return this.pkxUnencrypted.writeUInt32LE(
+                                 i << 30 | (this.pkxUnencrypted.readUInt32LE(0x74) & 0xBFFFFFFF), 0x74
                                )
                              },
   writeIsNicknamed:          function(i) {
-                               return this.pkxUnencrypted.writeUInt8(
-                                 i | (this.pkxUnencrypted.readUInt8(0x77) & 0xFE), 0x77
+                               return this.pkxUnencrypted.writeUInt32LE(
+                                 i << 31 | (this.pkxUnencrypted.readUInt32LE(0x74) & 0x7FFFFFFF), 0x74
                                )
                              },
   writeOTNameTradedTo:       function(i) {
@@ -274,12 +274,12 @@ pkx.spawn = {
   writePokeball:             function(i) { return this.pkxUnencrypted.writeUInt8(i,0xDC) },
   writeEncounterLevel:       function(i) {
                                return this.pkxUnencrypted.writeUInt8(
-                                 i << 1 | (this.pkxUnencrypted.readUInt8(0xDD) & 0x01), 0xDD
+                                 i | (this.pkxUnencrypted.readUInt8(0xDD) & 128), 0xDD
                                )
                              },
   writeOTGender:             function(i) {
                                return this.pkxUnencrypted.writeUInt8(
-                                 i | (this.pkxUnencrypted.readUInt8(0xDD) & 0xFE), 0xDD
+                                 i << 7 | (this.pkxUnencrypted.readUInt8(0xDD) & 0x7F), 0xDD
                                )
                              },
   writeOTGameVersion:        function(i) { return this.pkxUnencrypted.writeUInt8(i,0xDF) },
