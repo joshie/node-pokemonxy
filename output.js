@@ -16,7 +16,7 @@ output.log = function(pkx) {
   console.log('%s: %s', '       AbilityNumber', pkx.readAbilityNumber());
   console.log('%s: %s', '    PersonalityValue', pkx.readPersonalityValue());
   console.log('%s: %s', '              Nature', names.natures[pkx.readNature()]);
-  console.log('%s: %s', '    FatefulEncounter', pkx.readFatefulEncounter());
+  console.log('%s: %s', '    FatefulEncounter', names.flag[pkx.readFatefulEncounter()]);
   console.log('%s: %s', '              Gender', names.gender[pkx.readGender()]);
   console.log('%s: %s', '          Genderless', names.flag[pkx.readGenderless()]);
   console.log('%s: %s', '                Form', pkx.readForm());

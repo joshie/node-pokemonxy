@@ -1,6 +1,6 @@
 {
   "name" : "pokemonxy",
-  "version" : "0.0.13",
+  "version" : "0.0.14",
   "description" : "Library with various useful pokemonxy functions",
   "main" : "./index.js",
   "repository" : {
