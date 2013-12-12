@@ -2,8 +2,8 @@ var names = new Object;
 module.exports = names;
 
 names.flag = [
-  'no',
-  'yes'
+  'No',
+  'Yes'
 ];
 
 names.natures = [

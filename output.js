@@ -18,7 +18,7 @@ output.log = function(pkx) {
   console.log('%s: %s', '              Nature', names.natures[pkx.readNature()]);
   console.log('%s: %s', '    FatefulEncounter', pkx.readFatefulEncounter());
   console.log('%s: %s', '              Gender', names.gender[pkx.readGender()]);
-  console.log('%s: %s', '          Genderless', pkx.readGenderless());
+  console.log('%s: %s', '          Genderless', names.flag[pkx.readGenderless()]);
   console.log('%s: %s', '                Form', pkx.readForm());
   console.log('%s: %s', '       HPEffortValue', pkx.readHPEffortValue());
   console.log('%s: %s', '   AttackEffortValue', pkx.readAttackEffortValue());
@@ -26,7 +26,7 @@ output.log = function(pkx) {
   console.log('%s: %s', '    SpeedEffortValue', pkx.readSpeedEffortValue());
   console.log('%s: %s', ' SPAttackEffortValue', pkx.readSPAttackEffortValue());
   console.log('%s: %s', 'SPDefenseEffortValue', pkx.readSPDefenseEffortValue());
-  console.log('%s: %s', '             Pokerus', pkx.readPokerus());
+  console.log('%s: %s', '             Pokerus', names.flag[pkx.readPokerus()]);
   console.log('%s: %s', '        KalosRibbons', pkx.readKalosRibbons());
   console.log('%s: %s', '            Nickname', pkx.readNickname());
   console.log('%s: %s', '             Move1ID', names.moves[pkx.readMove1ID()]);
