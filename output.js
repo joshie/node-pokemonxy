@@ -70,7 +70,7 @@ output.log = function(pkx) {
   console.log('%s: %s', '            RegionID', pkx.readRegionID());
   console.log('%s: %s', '         3DSregionID', pkx.read3DSregionID());
   console.log('%s: %s', '          OTlanguage', names.languages[pkx.readOTlanguage()]);
-}
+};
 
 output.report = function(pkx) {
   out += printf('%s: %s', '    PkxEncryptionKey', pkx.readPkxEncryptionKey());
@@ -139,3 +139,4 @@ output.report = function(pkx) {
   out += printf('%s: %s', '            RegionID', pkx.readRegionID());
   out += printf('%s: %s', '         3DSregionID', pkx.read3DSregionID());
   out += printf('%s: %s', '          OTlanguage', names.languages[pkx.readOTlanguage()]);
+}
